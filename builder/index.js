@@ -1,20 +1,20 @@
 require("dotenv").config();
 const exec = require('child_process').exec;
-// const fs = require("fs/promises");
+const { sendMessage } = require("./src/producer");
 
 function executeTask() {
     let execution = exec(`git clone ${process.env.GITHUB_URL} output && cd output && npm i && npm run build`);
     execution.stdout.on("data", (data) => {
-        console.log("Task:", data);
+        sendMessage("LOG", data);
     });
     execution.stderr.on("data", (data) => {
-        console.log("Warning:", data);
+        sendMessage("WARNING", data);
     });
     execution.stdout.on("error", (data) => {
-        console.log("Error:", data);
+        sendMessage("ERROR", data);
     });
     execution.on("close", () => {
-        console.log("Build complete!");
+        sendMessage("LOG", "Build Complete!");
     });
 }
 
