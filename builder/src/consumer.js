@@ -15,7 +15,7 @@ async function init(){
         eachMessage: async ({ topic, partition, message, heartbeat, pause }) => {
             console.log(message.value.toString());
         }
-    })
+    });
 }
 
 init();
